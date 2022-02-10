@@ -1,9 +1,29 @@
 import React, { useState } from 'react';
 
-function App() {
-  const [srcImage, setSrcImage] = useState('images/image-product-1.jpg');
-  const [count, setCount] = useState(0);
+interface addCartProps {
+  image: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
 
+function App() {
+  const [srcImage, setSrcImage] = useState<string>(
+    'images/image-product-1.jpg'
+  );
+  const [count, setCount] = useState<number>(0);
+  const [cart, setCart] = useState<Array<{}>>([]);
+
+  const handleAddToCart = () => {
+    const newProduct: addCartProps = {
+      image: srcImage,
+      name: 'product 1',
+      price: 100,
+      quantity: count,
+    };
+    console.log(cart);
+    setCart([...cart, newProduct]);
+  };
   const handleChangeImage = (e: any): void => {
     setSrcImage(e.target.srcset);
   };
@@ -14,6 +34,7 @@ function App() {
     setCount(count - 1);
   };
 
+  console.log(cart);
   return (
     <div className="font-kumbh bg-white px-24">
       <header className="mb-5">
@@ -24,19 +45,19 @@ function App() {
             </picture>
             <ul className="flex items-center justify-center text-dark-gravish-blue">
               <li className="mx-3">
-                <a href="">collections</a>
+                <a href="#">collections</a>
               </li>
               <li className="mx-3">
-                <a href="">Men</a>
+                <a href="#">Men</a>
               </li>
               <li className="mx-3">
-                <a href="">Women</a>
+                <a href="#">Women</a>
               </li>
               <li className="mx-3">
-                <a href="">About</a>
+                <a href="#">About</a>
               </li>
               <li className="mx-3">
-                <a href="">Contact</a>
+                <a href="#">Contact</a>
               </li>
             </ul>
           </section>
@@ -126,7 +147,10 @@ function App() {
             <button onClick={handleMinus}>
               <img src="/images/icon-minus.svg" alt="" className="w-5" />
             </button>
-            <button className="flex items-center justify-center p-4 mx-6 bg-primary-orange rounded-3xl text-white ">
+            <button
+              onClick={handleAddToCart}
+              className="flex items-center justify-center p-4 mx-6 bg-primary-orange rounded-3xl text-white "
+            >
               <img src="/images/icon-cart.svg" alt="" className="w-5 " />
               <span>Add to cart</span>
             </button>
@@ -134,7 +158,18 @@ function App() {
         </section>
         <section className="info"></section>
       </main>
-      <footer>footer</footer>
+      {/* <footer>
+        {cart.length > 0 &&
+          cart.map((product: any) => {
+            return (
+              <section className="flex justify-between items-center bg-dark-gravish-blue m-4 rounded-3xl p-3 w-96 ">
+                <img src={product.image} alt="" className="w-10" />
+                <span>{product.quantity}</span>
+                <p>{product.price}</p>
+              </section>
+            );
+          })}
+      </footer> */}
     </div>
   );
 }
